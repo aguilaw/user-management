@@ -19,6 +19,9 @@ export class MessagesService {
   async findAllById(id: number) {
     return await this.messageRepository.find({
       where: [{ toUserId: id }, { fromUserId: id }],
+      order: {
+        sentOn: 'ASC',
+      },
     });
   }
 }

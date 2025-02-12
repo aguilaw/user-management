@@ -15,12 +15,16 @@ export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
   @Post()
-  create(@Body(ValidationPipe) createMessageDto: CreateMessageDto) {
+  async create(@Body(ValidationPipe) createMessageDto: CreateMessageDto) {
     return this.messagesService.create(createMessageDto);
   }
 
   @Get()
-  findAllById(@Param('id', ParseIntPipe) id: number) {
-    return this.messagesService.findAllById(id);
+  async findAllById(@Param('id', ParseIntPipe) id: number) {
+    const messages = await this.messagesService.findAllById(id);
+    return {
+      received: messages.filter((msg) => msg.toUserId === id),
+      sent: messages.filter((msg) => msg.fromUserId === id),
+    };
   }
 }
