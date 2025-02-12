@@ -27,7 +27,7 @@ export class UsersService {
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.usersRepository.update({ id }, { isActive: false });
   }
 }

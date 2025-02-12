@@ -16,27 +16,27 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  register(@Body(ValidationPipe) createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async register(@Body(ValidationPipe) createUserDto: CreateUserDto) {
+    return await this.usersService.create(createUserDto);
   }
 
   @Post()
-  create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
+    return await this.usersService.create(createUserDto);
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll() {
+    return await this.usersService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.usersService.findOne(id);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return await this.usersService.remove(id);
   }
 }
