@@ -14,9 +14,13 @@ import { CreateMessageDto } from './dto/create-message.dto';
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
+  //TODO: eventually we should only need the mssg body. The 'toId' would come from the params and the 'fromId' would be retrieved  from the auth token
   @Post()
-  async create(@Body(ValidationPipe) createMessageDto: CreateMessageDto) {
-    return this.messagesService.create(createMessageDto);
+  async create(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(ValidationPipe) createMessageDto: CreateMessageDto,
+  ) {
+    return this.messagesService.create(id, createMessageDto);
   }
 
   @Get()

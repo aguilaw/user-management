@@ -11,8 +11,11 @@ export class MessagesService {
     private messageRepository: Repository<Message>,
   ) {}
 
-  async create(createMessageDto: CreateMessageDto) {
-    const newMessage = this.messageRepository.create(createMessageDto);
+  async create(toUserId: number, createMessageDto: CreateMessageDto) {
+    const newMessage = this.messageRepository.create({
+      toUserId,
+      ...createMessageDto,
+    });
     return this.messageRepository.save(newMessage);
   }
 
