@@ -36,7 +36,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Container maxWidth="md">{children}</Container>
+      <Container maxWidth="sm" sx={{ p: 3 }}>
+        {children}
+      </Container>
     </>
   );
 };

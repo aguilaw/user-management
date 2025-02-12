@@ -31,17 +31,17 @@ const RegisterForm = () => {
     try {
       //TODO: dont send raw password
       const { data } = await axios.post(
-        //TODO: Configure axios somewhere else so we dont have to hardcode the host everytime
+        //TODO: Configure axios somewhere else so we dont have to hardcode the host everytime. Preferably an API interface so we can just call methods in the components
         //TODO: use the register endpoint instead of create.
         "http://localhost:3000/users",
         formData
       );
-      console.log(data);
-
       login(data);
 
       navigate("/");
-    } catch (error) {}
+    } catch (error) {
+      // TODO: process server errors. For ex. the server IS validating email formatting but the SPA isn't. The server will throw a 400 as expected and this should trigger some kind of feedback so the user know what went wrong.
+    }
   };
 
   return (
