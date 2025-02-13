@@ -3,12 +3,23 @@ import {
   AppBar,
   Avatar,
   Box,
+  Button,
   Container,
   IconButton,
+  Stack,
   Toolbar,
   Typography,
 } from "@mui/material";
+import { useNavigate } from "react-router";
+import { useAuth } from "../context";
+import { Comment } from "@mui/icons-material";
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const goToMyMessages = () => {
+    navigate(`/users/${user?.id}`);
+  };
   return (
     <>
       <AppBar position="static">
@@ -30,9 +41,20 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 LOGO
               </Typography>
             </Box>
-            <IconButton sx={{ p: 0 }}>
-              <Avatar alt={"USER NAME"} />
-            </IconButton>
+            <Stack direction="row" spacing={2}>
+              <Button
+                variant="text"
+                startIcon={<Comment />}
+                onClick={goToMyMessages}
+                sx={{ color: "white" }}
+              >
+                My Messages
+              </Button>
+
+              <IconButton sx={{ p: 0 }}>
+                <Avatar alt={`${user?.firstName} ${user?.lastName}`} />
+              </IconButton>
+            </Stack>
           </Toolbar>
         </Container>
       </AppBar>

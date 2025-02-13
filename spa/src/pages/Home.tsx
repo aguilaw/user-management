@@ -1,7 +1,7 @@
 import { Paper, Stack, Typography } from "@mui/material";
 import { Layout } from "../components";
 import { useAuth } from "../context";
-import { UserList } from "../components/UserList";
+import { UserList } from "../components";
 
 const Home: React.FC = () => {
   const { user } = useAuth();

@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Delete, Send } from "@mui/icons-material";
 
-export const UserList: React.FC = ({}) => {
+const UserList: React.FC = ({}) => {
   const { user } = useAuth();
   const [openMessage, setOpenMessage] = useState(0);
   const [messageBody, setMessageBody] = useState("");
@@ -106,3 +106,5 @@ export const UserList: React.FC = ({}) => {
     </List>
   );
 };
+
+export default UserList;
