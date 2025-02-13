@@ -1,7 +1,19 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
 import { RegisterForm } from "../components";
+import { useNavigate } from "react-router";
+import { useAuth } from "../context";
+import { useEffect } from "react";
 
 const Register: React.FC = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    //no need to register if we already have an active token
+    if (user?.id) {
+      navigate("/");
+    }
+  }, [user]);
+
   return (
     <Stack
       direction="column"

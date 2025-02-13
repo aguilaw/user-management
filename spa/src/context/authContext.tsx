@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext } from "react";
+import axios from "axios";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 export interface User {
   id: string;
@@ -9,7 +10,8 @@ export interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (userData: User) => void;
+  token: string | null;
+  login: (token: string, userData: User) => void;
   logout: () => void;
 }
 
@@ -19,18 +21,48 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("token")
+  );
 
-  //TODO: Add token functionality
-  const login = (userData: User) => {
+  useEffect(() => {
+    if (token) {
+      getUser();
+    }
+  }, [token]);
+
+  const getUser = async () => {
+    try {
+      console.log("token", token);
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/me`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("gotUser", data);
+      setUser(data);
+    } catch (error) {
+      logout();
+    }
+  };
+
+  const login = (token: string, userData: User) => {
+    console.log("token", token);
+
+    localStorage.setItem("token", token);
     setUser(userData);
+    setToken(token);
   };
 
   const logout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, token }}>
       {children}
     </AuthContext.Provider>
   );

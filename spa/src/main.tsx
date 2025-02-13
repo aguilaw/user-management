@@ -11,11 +11,10 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   const { user } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
-    //TODO: check for TOKEN instead?
     if (!user?.id) {
       navigate("/register");
     }
-  }, []);
+  }, [user]);
   return children;
 };
 

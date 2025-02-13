@@ -14,7 +14,7 @@ import axios from "axios";
 import { Delete, Send } from "@mui/icons-material";
 
 const UserList: React.FC = ({}) => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [openMessage, setOpenMessage] = useState(0);
   const [messageBody, setMessageBody] = useState("");
   const [users, setUsers] = useState([]);
@@ -25,7 +25,12 @@ const UserList: React.FC = ({}) => {
 
   const getAllUsers = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/users`);
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setUsers(data);
     } catch (error) {
       // TODO; error handler
@@ -33,7 +38,9 @@ const UserList: React.FC = ({}) => {
   };
   const deleteUser = async (id: number) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/users/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/users/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       await getAllUsers();
     } catch (error) {
       // TODO; error handler
@@ -41,10 +48,16 @@ const UserList: React.FC = ({}) => {
   };
   const sendMessageToId = async (id: number) => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/users/${id}/messages`, {
-        fromUserId: user?.id,
-        body: messageBody,
-      });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/users/${id}/messages`,
+        {
+          fromUserId: user?.id,
+          body: messageBody,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setMessageBody("");
       setOpenMessage(0);
     } catch (error) {

@@ -7,7 +7,7 @@ import { useParams } from "react-router";
 
 const Messages: React.FC = () => {
   const [messages, setMessages] = useState({ received: [], sent: [] });
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const { id } = useParams();
   useEffect(() => {
     getAllMessagesForUser();
@@ -16,7 +16,10 @@ const Messages: React.FC = () => {
   const getAllMessagesForUser = async () => {
     try {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/users/${id}/messages`
+        `${import.meta.env.VITE_API_URL}/users/${id}/messages`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       setMessages(data);
     } catch (error) {

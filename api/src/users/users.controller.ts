@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   UseGuards,
   Inject,
+  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -26,7 +27,7 @@ export class UsersController {
   //TODO: Should existing users (added manually to DB with no password) be able to register? or only new entries?
   async register(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     const user = await this.usersService.create(createUserDto);
-    const token = await this.authService.signIn(user.email, user.password);
+    const token = await this.authService.login(user.email, user.password);
 
     return {
       user,
@@ -44,6 +45,13 @@ export class UsersController {
   @Get()
   async findAll() {
     return await this.usersService.findAll();
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('/me')
+  async findMe(@Request() req) {
+    const test = this.usersService.findOne(req.user.sub);
+    return test;
   }
 
   @UseGuards(AuthGuard)
