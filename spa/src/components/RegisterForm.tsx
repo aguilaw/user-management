@@ -26,14 +26,13 @@ const RegisterForm = () => {
     },
   });
   const { login } = useAuth();
-
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
     try {
       //TODO: dont send raw password
       const { data } = await axios.post(
         //TODO: Configure axios somewhere else so we dont have to hardcode the host everytime. Preferably an API interface so we can just call methods in the components
         //TODO: use the register endpoint instead of create.
-        "http://localhost:3000/users",
+        `${import.meta.env.VITE_API_URL}/users`,
         formData
       );
       login(data);

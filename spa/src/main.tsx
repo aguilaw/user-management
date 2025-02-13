@@ -11,7 +11,6 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   const { user } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(user);
     //TODO: check for TOKEN instead?
     if (!user?.id) {
       navigate("/register");

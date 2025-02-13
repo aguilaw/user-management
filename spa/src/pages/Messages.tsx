@@ -16,7 +16,7 @@ const Messages: React.FC = () => {
   const getAllMessagesForUser = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/users/${id}/messages`
+        `${import.meta.env.VITE_API_URL}/users/${id}/messages`
       );
       setMessages(data);
     } catch (error) {

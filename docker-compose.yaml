@@ -25,13 +25,12 @@ services:
       context: ./api
       dockerfile: Dockerfile
     environment:
-      - PORT=${PORT}
+      - PORT=3000
+      - POSTGRES_HOST=postgres_db
     ports:
       - 3000:3000
     depends_on:
       - db
-    env_file:
-      - ./.env
     restart: always
     networks:
       - appNetwork
@@ -41,13 +40,11 @@ services:
       context: ./spa
       dockerfile: Dockerfile
     environment:
-      - PORT=${SPA_PORT}
+      - PORT=5173
     ports:
       - 5173:5173
     depends_on:
       - db
-    env_file:
-      - ./.env
     networks:
       - appNetwork
 volumes:

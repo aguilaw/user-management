@@ -25,7 +25,7 @@ const UserList: React.FC = ({}) => {
 
   const getAllUsers = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/users");
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/users`);
       setUsers(data);
     } catch (error) {
       // TODO; error handler
@@ -33,7 +33,7 @@ const UserList: React.FC = ({}) => {
   };
   const deleteUser = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:3000/users/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/users/${id}`);
       await getAllUsers();
     } catch (error) {
       // TODO; error handler
@@ -41,7 +41,7 @@ const UserList: React.FC = ({}) => {
   };
   const sendMessageToId = async (id: number) => {
     try {
-      await axios.post(`http://localhost:3000/users/${id}/messages`, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/users/${id}/messages`, {
         fromUserId: user?.id,
         body: messageBody,
       });
