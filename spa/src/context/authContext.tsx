@@ -33,14 +33,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const getUser = async () => {
     try {
-      console.log("token", token);
       const { data } = await axios.get(
         `${import.meta.env.VITE_API_URL}/users/me`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("gotUser", data);
       setUser(data);
     } catch (error) {
       logout();
@@ -48,8 +46,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const login = (token: string, userData: User) => {
-    console.log("token", token);
-
     localStorage.setItem("token", token);
     setUser(userData);
     setToken(token);
