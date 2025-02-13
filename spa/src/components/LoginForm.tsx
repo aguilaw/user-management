@@ -11,7 +11,7 @@ type Inputs = {
   password: string;
 };
 
-const RegisterForm = () => {
+const LoginForm = () => {
   const navigate = useNavigate();
   const {
     control,
@@ -19,8 +19,6 @@ const RegisterForm = () => {
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
-      firstName: "",
-      lastName: "",
       email: "",
       password: "",
     },
@@ -31,7 +29,7 @@ const RegisterForm = () => {
       //TODO: dont send raw password
       const { data } = await axios.post(
         //TODO: Configure axios somewhere else so we dont have to hardcode the host everytime. Preferably an API interface so we can just call methods in the components
-        `${import.meta.env.VITE_API_URL}/users/register`,
+        `${import.meta.env.VITE_API_URL}/auth/login`,
         formData,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -49,42 +47,6 @@ const RegisterForm = () => {
     <Paper elevation={1}>
       <Box p={3} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={3}>
-          <Grid size={6}>
-            <Controller
-              name="firstName"
-              control={control}
-              rules={{ required: "First Name is required" }}
-              render={({ field }) => (
-                <TextField
-                  label="First Name"
-                  fullWidth
-                  {...field}
-                  {...(errors.firstName
-                    ? { error: true, helperText: errors.firstName.message }
-                    : {})}
-                />
-              )}
-            />
-          </Grid>
-          <Grid size={6}>
-            <div>
-              <Controller
-                name="lastName"
-                control={control}
-                rules={{ required: "Last Name is required" }}
-                render={({ field }) => (
-                  <TextField
-                    label="Last Name"
-                    fullWidth
-                    {...field}
-                    {...(errors.lastName
-                      ? { error: true, helperText: errors.lastName.message }
-                      : {})}
-                  />
-                )}
-              />
-            </div>
-          </Grid>
           <Grid size={6}>
             <div>
               <Controller
@@ -143,4 +105,4 @@ const RegisterForm = () => {
     </Paper>
   );
 };
-export default RegisterForm;
+export default LoginForm;

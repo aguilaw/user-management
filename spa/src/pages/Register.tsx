@@ -1,12 +1,13 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
-import { RegisterForm } from "../components";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { LoginForm, RegisterForm } from "../components";
 import { useNavigate } from "react-router";
 import { useAuth } from "../context";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Register: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [formType, setFormType] = useState<"login" | "register">("login");
   useEffect(() => {
     //no need to register if we already have an active token
     if (user?.id) {
@@ -29,8 +30,25 @@ const Register: React.FC = () => {
             Welcome! Please register below
           </Typography>
         </Box>
-        <RegisterForm />
+        {formType === "login" ? <LoginForm /> : <RegisterForm />}
       </Container>
+      {formType === "login" ? (
+        <Button
+          variant="text"
+          sx={{ color: "white" }}
+          onClick={() => setFormType("register")}
+        >
+          Create Account
+        </Button>
+      ) : (
+        <Button
+          variant="text"
+          sx={{ color: "white" }}
+          onClick={() => setFormType("login")}
+        >
+          Login
+        </Button>
+      )}
     </Stack>
   );
 };
