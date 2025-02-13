@@ -18,12 +18,16 @@ export class UsersService {
   }
 
   async findAll() {
-    return this.usersRepository.find();
+    return this.usersRepository.find({
+      where: {
+        isActive: true,
+      },
+    });
   }
 
   async findOne(id: number) {
     return this.usersRepository.findOne({
-      where: { id },
+      where: { id, isActive: true },
     });
   }
 

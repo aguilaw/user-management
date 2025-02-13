@@ -1,7 +1,10 @@
+import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -11,14 +14,18 @@ export class Message {
   id: number;
 
   @Column()
-  fromUserId: number;
-
-  @Column()
-  toUserId: number;
-
-  @Column()
   body: string;
 
   @CreateDateColumn()
   sentOn: Date;
+
+  @ManyToOne(() => User, (user) => user.sentMessages, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'fromUserId' })
+  fromUser: User;
+
+  @ManyToOne(() => User, (user) => user.receivedMessages, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'toUserId' })
+  toUser: User;
 }

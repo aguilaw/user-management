@@ -24,11 +24,21 @@ export class MessagesController {
   }
 
   @Get()
-  async findAllById(@Param('id', ParseIntPipe) id: number) {
-    const messages = await this.messagesService.findAllById(id);
+  async getUserWithMessages(@Param('id', ParseIntPipe) id: number) {
+    const { messagesReceived, messagesSent } =
+      await this.messagesService.getMessagesWithUser(id);
+    //TODO: eventually move to a transformer method
     return {
-      received: messages.filter((msg) => msg.toUserId === id),
-      sent: messages.filter((msg) => msg.fromUserId === id),
+      received: messagesReceived.map((mssg) => ({
+        body: mssg.body,
+        sentOn: mssg.sentOn,
+        fullName: `${mssg.fromUser.firstName} ${mssg.fromUser.lastName}`,
+      })),
+      sent: messagesSent.map((mssg) => ({
+        body: mssg.body,
+        sentOn: mssg.sentOn,
+        fullName: `${mssg.toUser.firstName} ${mssg.toUser.lastName}`,
+      })),
     };
   }
 }

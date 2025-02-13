@@ -1,4 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Message } from 'src/messages/entities/message.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+  OneToMany,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -16,4 +24,10 @@ export class User {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @OneToMany(() => Message, (message) => message.fromUser)
+  sentMessages: Message[];
+
+  @OneToMany(() => Message, (message) => message.toUser)
+  receivedMessages: Message[];
 }
