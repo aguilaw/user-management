@@ -63,5 +63,3 @@ dist-ssr
 *.sln
 *.sw?
 
-docker-compose.yaml
-*/Dockerfile

@@ -1,13 +1,4 @@
-import {
-  Avatar,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Paper, Stack, Typography } from "@mui/material";
 import { Layout, MessageList } from "../components";
 import { useAuth } from "../context";
 import { useEffect, useState } from "react";
